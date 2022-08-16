@@ -1,6 +1,6 @@
-package com.example.TimeSheet.Model.Entity;
+package com.example.timesheet.model.entity;
 
-import com.example.TimeSheet.Model.Enum.ProjectStatus;
+import com.example.timesheet.model.enumeration.ProjectStatus;
 import lombok.Data;
 
 import javax.persistence.*;

@@ -1,7 +1,7 @@
-package com.example.TimeSheet.Model.Entity;
+package com.example.timesheet.model.entity;
 
-import com.example.TimeSheet.Model.Enum.EmployeeStatus;
-import com.example.TimeSheet.Model.Enum.Role;
+import com.example.timesheet.model.enumeration.EmployeeStatus;
+import com.example.timesheet.model.enumeration.Role;
 import lombok.*;
 
 import javax.persistence.*;

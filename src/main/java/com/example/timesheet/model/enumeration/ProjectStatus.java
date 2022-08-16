@@ -1,4 +1,4 @@
-package com.example.TimeSheet.Model.Enum;
+package com.example.timesheet.model.enumeration;
 
 public enum ProjectStatus {
     ACTIVE,

@@ -1,4 +1,4 @@
-package com.example.TimeSheet.Model.Entity;
+package com.example.timesheet.model.entity;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-public class Category {
+public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

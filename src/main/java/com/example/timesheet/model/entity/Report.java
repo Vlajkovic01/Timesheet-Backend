@@ -1,4 +1,4 @@
-package com.example.TimeSheet.Model.Entity;
+package com.example.timesheet.model.entity;
 
 import lombok.Data;
 
