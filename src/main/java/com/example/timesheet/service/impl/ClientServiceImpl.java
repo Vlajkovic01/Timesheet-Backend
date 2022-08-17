@@ -32,7 +32,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client addNewClient(ClientDTO clientDTO, Authentication authentication) {
 
-        if (authentication == null || employeeService.findCurrentLoggedUser(authentication) == null) {
+        if (!employeeService.isAdmin(authentication)) {
             return null;
         }
 
