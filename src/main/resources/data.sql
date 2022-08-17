@@ -10,7 +10,7 @@ insert into employee(name, username, password, email, status, role)
 insert into employee(name, username, password, email, status, role) 
 	values ('Nikola Nikolic', 'nikola', '$2a$04$2fft5WW4rqrPyT60YLcIe.vQHZd.bI5JpSrCsKwYoNBj3SYcIomqu', 'nikolanikolic01@gmail.com', 'ACTIVE', 'WORKER');
 insert into employee(name, username, password, email, status, role) 
-	values ('Petar Petrovic', 'petar', '$2a$04$J8Wxff0jw8yiA.YyGhB3ROUW/dAWYSO2E9Hw23s9byq7/H03RsfZy', 'nikolanikolic01@gmail.com', 'ACTIVE', 'WORKER');
+	values ('Petar Petrovic', 'petar', '$2a$04$J8Wxff0jw8yiA.YyGhB3ROUW/dAWYSO2E9Hw23s9byq7/H03RsfZy', 'petarpetrovic01@gmail.com', 'ACTIVE', 'WORKER');
     
 insert into country (name) values ('California');    
 insert into country (name) values ('Serbia');    

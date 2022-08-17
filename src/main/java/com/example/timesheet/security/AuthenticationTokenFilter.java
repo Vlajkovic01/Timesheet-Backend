@@ -1,10 +1,10 @@
 package com.example.timesheet.security;
 
-import com.example.timesheet.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
@@ -18,7 +18,7 @@ import java.io.IOException;
 public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
 
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
     @Autowired
     private TokenUtils tokenUtils;
@@ -33,10 +33,10 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
             token = token.substring(7);
         }
 
-        String email = tokenUtils.getEmailFromToken(token);
+        String username = tokenUtils.getUsernameFromToken(token);
 
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadEmployeeByEmail(email);
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             if (tokenUtils.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()

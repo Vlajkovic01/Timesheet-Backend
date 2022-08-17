@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,17 +21,6 @@ public class TokenUtils {
     @Value("3600000")
     private Long expiration;
 
-    public String getEmailFromToken(String token) {
-        String email;
-        try {
-            Claims claims = this.getClaimsFromToken(token); // email izvlacimo iz subject polja unutar payload tokena
-            email = claims.getSubject();
-        } catch (Exception e) {
-            email = null;
-        }
-        return email;
-    }
-
     private Claims getClaimsFromToken(String token) {
         Claims claims;
         try {
@@ -42,10 +32,21 @@ public class TokenUtils {
         return claims;
     }
 
+    public String getUsernameFromToken(String token) {
+        String username;
+        try {
+            Claims claims = this.getClaimsFromToken(token); // username izvlacimo iz subject polja unutar payload tokena
+            username = claims.getSubject();
+        } catch (Exception e) {
+            username = null;
+        }
+        return username;
+    }
+
     public Date getExpirationDateFromToken(String token) {
         Date expirationDate;
         try {
-            final Claims claims = this.getClaimsFromToken(token); // expiration date izvlacimo iz expiration time polja unutar payload tokena
+            final Claims claims = this.getClaimsFromToken(token); // username izvlacimo iz expiration time polja unutar payload tokena
             expirationDate = claims.getExpiration();
         } catch (Exception e) {
             expirationDate = null;
@@ -62,8 +63,8 @@ public class TokenUtils {
 
     /*Provera validnosti tokena: period vazenja i provera username-a korisnika*/
     public boolean validateToken(String token, UserDetails userDetails) {
-        final String email = getEmailFromToken(token);
-        return email.equals(userDetails.getUsername())
+        final String username = getUsernameFromToken(token);
+        return username.equals(userDetails.getUsername())
                 && !isTokenExpired(token);
     }
 
@@ -71,7 +72,7 @@ public class TokenUtils {
      * kao sto je rola korisnika.*/
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("sub", userDetails.getUsername()); // getEmail
+        claims.put("sub", userDetails.getUsername());
         claims.put("role", userDetails.getAuthorities().toArray()[0]);
         claims.put("created", new Date(System.currentTimeMillis()));
         return Jwts.builder().setClaims(claims)

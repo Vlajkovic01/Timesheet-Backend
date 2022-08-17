@@ -1,70 +1,77 @@
 package com.example.timesheet.security;
 
-import com.example.timesheet.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfiguration {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    AuthenticationManager authenticationManager;
-    private final CustomUserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-    public SecurityConfiguration(CustomUserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    @Autowired
+    public void configureAuthentication(
+            AuthenticationManagerBuilder authenticationManagerBuilder)
+            throws Exception {
+
+        authenticationManagerBuilder
+                .userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder());
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
-
-//    @Bean
-//    public AuthenticationTokenFilter authenticationTokenFilterBean() {
-//        AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter();
-//        authenticationTokenFilter.setAuthenticationManager(authenticationManager);
-//        return authenticationTokenFilter;
-//    }
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-        authenticationManager = authenticationManagerBuilder.build();
-
+    @Bean
+    public AuthenticationTokenFilter authenticationTokenFilterBean()
+            throws Exception {
         AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter();
-        authenticationTokenFilter.setAuthenticationManager(authenticationManager);
+        authenticationTokenFilter
+                .setAuthenticationManager(authenticationManagerBean());
+        return authenticationTokenFilter;
+    }
 
-        http.csrf().disable().cors().disable().authorizeHttpRequests()
-                .antMatchers(HttpMethod.POST,"/api/auth/login").permitAll()
-
-                .anyRequest().authenticated()
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception{
+        //Naglasavamo browser-u da ne cache-ira podatke koje dobije u header-ima
+        //detaljnije: https://www.baeldung.com/spring-security-cache-control-headers
+        httpSecurity.headers().cacheControl().disable();
+        //Neophodno da ne bi proveravali autentifikaciju kod Preflight zahteva
+        httpSecurity.cors();
+        //sledeca linija je neophodna iskljucivo zbog nacina na koji h2 konzola komunicira sa aplikacijom
+        httpSecurity.headers().frameOptions().disable();
+        httpSecurity.csrf().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authenticationManager(authenticationManager)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/auth/test").permitAll()
 
-        http.addFilterBefore(authenticationTokenFilter,UsernamePasswordAuthenticationFilter.class);
+                .anyRequest().authenticated();
 
-        return http.build();
+        httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
 }

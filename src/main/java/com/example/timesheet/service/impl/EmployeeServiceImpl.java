@@ -3,6 +3,8 @@ package com.example.timesheet.service.impl;
 import com.example.timesheet.model.entity.Employee;
 import com.example.timesheet.repository.EmployeeRepository;
 import com.example.timesheet.service.EmployeeService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -26,7 +28,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee findByUsername(String username) {
-        return null;
+    public Employee findCurrentLoggedUser(Authentication authentication) {
+        if (authentication == null) {
+            return null;
+        }
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        return findByEmail(userDetails.getUsername());
     }
+
 }
