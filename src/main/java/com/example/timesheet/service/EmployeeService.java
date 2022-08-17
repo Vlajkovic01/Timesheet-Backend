@@ -7,4 +7,6 @@ public interface EmployeeService {
 
     Employee findByEmail(String email);
     Employee findCurrentLoggedUser(Authentication authentication);
+
+    boolean isAdmin(Authentication authentication);
 }
