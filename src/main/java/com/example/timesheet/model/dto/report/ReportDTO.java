@@ -13,8 +13,6 @@ public class ReportDTO {
     private String description;
     private Double hours;
     private Double overtime;
-//    private ClientWithoutReportDTO client;
-//    private Project project;
     private EmployeeDTO employee;
     private CategoryDTO category;
 }

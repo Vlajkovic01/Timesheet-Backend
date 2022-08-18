@@ -2,13 +2,10 @@ package com.example.timesheet.service.impl;
 
 import com.example.timesheet.model.dto.category.CategoryDTO;
 import com.example.timesheet.model.entity.Category;
-import com.example.timesheet.model.entity.Client;
-import com.example.timesheet.model.entity.Country;
 import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.repository.CategoryRepository;
 import com.example.timesheet.service.CategoryService;
 import com.example.timesheet.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
