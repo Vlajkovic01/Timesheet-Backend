@@ -55,6 +55,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public Client findClientByName(String name) {
+        return clientRepository.findClientByName(name);
+    }
+
+    @Override
     public boolean existsClient(Client client) {
         return clientRepository.existsClientByName(client.getName());
     }
