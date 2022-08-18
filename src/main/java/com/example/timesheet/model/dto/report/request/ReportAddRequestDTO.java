@@ -1,16 +1,19 @@
-package com.example.timesheet.model.dto.report;
+package com.example.timesheet.model.dto.report.request;
 
 import com.example.timesheet.model.dto.category.CategoryDTO;
-import com.example.timesheet.model.dto.employee.EmployeeDTO;
+import com.example.timesheet.model.dto.client.ClientDTO;
+import com.example.timesheet.model.dto.project.ProjectDTO;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 @Data
-public class ReportDTO {
-    private Integer id;
+public class ReportAddRequestDTO {
     @NotEmpty(message = "Date is mandatory")
     private LocalDate date;
 
@@ -23,6 +26,7 @@ public class ReportDTO {
     private Double hours;
 
     private Double overtime;
-    private EmployeeDTO employee;
     private CategoryDTO category;
+    private ClientDTO client;
+    private ProjectDTO project;
 }
