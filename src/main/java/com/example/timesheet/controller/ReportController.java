@@ -24,7 +24,7 @@ public class ReportController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_WORKER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_WORKER')")
     public ResponseEntity<String> addNewReport(@Validated @RequestBody ReportAddRequestDTO reportAddRequestDTO,
                                                Authentication authentication) {
 

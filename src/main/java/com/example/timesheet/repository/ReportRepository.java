@@ -9,8 +9,8 @@ import java.time.LocalDate;
 
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Integer> {
-    @Query(nativeQuery = true, value = "SELECT IF(SUM(hours) > ?, true, false) as sumOfHours " +
-            "FROM report" +
+    @Query(nativeQuery = true, value = "SELECT IF(SUM(hours) >= ?, true, false) as sumOfHours " +
+            "FROM report " +
             "WHERE date = ? AND employee_id = ?")
-    boolean isSumOfHoursGreaterThanHoursPerDay(Double hoursPerDay, LocalDate date, Integer employeeId);
+    Integer isSumOfHoursGreaterThanHoursPerDay(Double hoursPerDay, LocalDate date, Integer employeeId);
 }

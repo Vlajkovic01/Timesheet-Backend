@@ -71,7 +71,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public boolean isSumOfHoursGreaterThanHoursPerDay(Double hoursPerDay, LocalDate date, Employee employee) {
-        return reportRepository.isSumOfHoursGreaterThanHoursPerDay(hoursPerDay, date, employee.getId());
+        return reportRepository.isSumOfHoursGreaterThanHoursPerDay(hoursPerDay, date, employee.getId()) == 1;
     }
 
     @Override
