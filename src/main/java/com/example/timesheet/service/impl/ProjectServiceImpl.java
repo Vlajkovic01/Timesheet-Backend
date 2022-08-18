@@ -65,6 +65,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Project findProjectByNameAndClient(String name, Client client) {
+        return projectRepository.findProjectByNameAndClient(name, client);
+    }
+
+    @Override
     public void save(Project project) {
         projectRepository.save(project);
     }

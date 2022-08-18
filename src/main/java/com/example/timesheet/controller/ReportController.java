@@ -1,12 +1,8 @@
 package com.example.timesheet.controller;
 
-import com.example.timesheet.model.dto.client.ClientDTO;
-import com.example.timesheet.model.dto.client.response.ClientResponseDTO;
 import com.example.timesheet.model.dto.report.request.ReportAddRequestDTO;
-import com.example.timesheet.model.entity.Client;
 import com.example.timesheet.model.entity.Report;
 import com.example.timesheet.service.ReportService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,9 +26,9 @@ public class ReportController {
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_WORKER')")
     public ResponseEntity<String> addNewReport(@Validated @RequestBody ReportAddRequestDTO reportAddRequestDTO,
-                                                          Authentication authentication) {
+                                               Authentication authentication) {
 
-        Report createdReport= reportService.addNewReport(reportAddRequestDTO, authentication);
+        Report createdReport = reportService.addNewReport(reportAddRequestDTO, authentication);
 
         if (createdReport == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -8,7 +8,7 @@ public interface CategoryService {
 
     Category addNewCategory(CategoryDTO categoryDTO, Authentication authentication);
     boolean existsCategory(String name);
-    Category findCategoryByName(Category category);
+    Category findCategoryByName(String name);
 
     void save(Category category);
 }

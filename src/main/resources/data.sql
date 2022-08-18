@@ -37,5 +37,5 @@ insert into report(date, description, hours, overtime, client_id, project_id, em
 	values ('2022-08-10', 'Test description for report 1', 7.5, 0, 1, 1, 2, 3);
     
 insert into report(date, description, hours, overtime, client_id, project_id, employee_id, category_id)
-	values ('2022-08-13', 'Test description for report 2', 7.0, 0, 2, 2, 2, 4);
+	values ('2022-08-10', 'Test description for report 2', 7.0, 0, 2, 2, 2, 4);
     
