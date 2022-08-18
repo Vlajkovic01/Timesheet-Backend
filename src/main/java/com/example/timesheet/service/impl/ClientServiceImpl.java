@@ -56,8 +56,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public boolean existsClient(Client client) {
-        return clientRepository.existsClientByNameAndAddressAndCityAndZipAndCountry(client.getName(), client.getAddress(),
-                                                        client.getCity(), client.getZip(), client.getCountry());
+        return clientRepository.existsClientByName(client.getName());
     }
 
     @Override
