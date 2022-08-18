@@ -1,8 +1,6 @@
 package com.example.timesheet.model.dto.project;
 
 import com.example.timesheet.model.dto.employee.EmployeeDTO;
-import com.example.timesheet.model.entity.Client;
-import com.example.timesheet.model.entity.Employee;
 import com.example.timesheet.model.enumeration.ProjectStatus;
 import lombok.Data;
 
@@ -14,5 +12,4 @@ public class ProjectDTO {
     private String description;
     private ProjectStatus status;
     private EmployeeDTO lead;
-//    private Client client;
 }

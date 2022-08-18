@@ -1,7 +1,6 @@
 package com.example.timesheet.service.impl;
 
 import com.example.timesheet.model.entity.Employee;
-import com.example.timesheet.model.enumeration.EmployeeStatus;
 import com.example.timesheet.model.enumeration.Role;
 import com.example.timesheet.repository.EmployeeRepository;
 import com.example.timesheet.service.EmployeeService;
@@ -23,10 +22,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee findByEmail(String email) {
         Optional<Employee> employee = employeeRepository.findFirstByEmail(email);
-        if (!employee.isEmpty()) {
-            return employee.get();
-        }
-        return null;
+        return employee.orElse(null);
     }
 
     @Override

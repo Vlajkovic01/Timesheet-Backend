@@ -1,12 +1,8 @@
 package com.example.timesheet.controller;
 
 import com.example.timesheet.model.dto.category.CategoryDTO;
-import com.example.timesheet.model.dto.client.ClientDTO;
-import com.example.timesheet.model.dto.client.response.ClientResponseDTO;
 import com.example.timesheet.model.entity.Category;
-import com.example.timesheet.model.entity.Client;
 import com.example.timesheet.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,7 +26,7 @@ public class CategoryController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Category> addNewCategory(@Validated @RequestBody CategoryDTO categoryDTO,
-                                                          Authentication authentication) {
+                                                   Authentication authentication) {
 
         Category createdCategory = categoryService.addNewCategory(categoryDTO, authentication);
 
