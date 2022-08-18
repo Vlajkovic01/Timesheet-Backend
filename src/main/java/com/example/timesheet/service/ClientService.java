@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 public interface ClientService {
 
     Client addNewClient(ClientDTO clientDTO, Authentication authentication);
+    Client findClientByName(String name);
     boolean existsClient(Client client);
 
     void save(Client client);
