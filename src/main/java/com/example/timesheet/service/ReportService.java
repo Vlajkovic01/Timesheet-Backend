@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface ReportService {
 
-    boolean addNewReports(List<ReportAddRequestDTO> reportsDTO, Authentication authentication);
+    List<Report> addNewReports(List<ReportAddRequestDTO> reportsDTO, Authentication authentication);
 
-    boolean save(Report report);
+    Report save(Report report);
 
-    boolean saveAll(List<Report> reports);
+    List<Report> saveAll(List<Report> reports);
 
     boolean validateWorkedHours(List<Report> reports, double minRequirementHours);
 }

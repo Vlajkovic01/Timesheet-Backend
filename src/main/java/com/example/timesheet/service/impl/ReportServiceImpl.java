@@ -10,6 +10,7 @@ import com.example.timesheet.service.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -33,13 +34,12 @@ public class ReportServiceImpl implements ReportService {
 
     //TODO change name from 'Report' to 'Worklog'
     @Override
-    public boolean addNewReports(List<ReportAddRequestDTO> reportsDTO, Authentication authentication) {
+    public List<Report> addNewReports(List<ReportAddRequestDTO> reportsDTO, Authentication authentication) {
 
         Employee employee = employeeService.findCurrentLoggedUser(authentication);
 
         List<Report> reports = reportsDTO.stream().map(reportDTO -> {
             Client client = clientService.findClientByName(reportDTO.getClientName());
-
             Report newReport = modelMapper.map(reportDTO, Report.class);
             newReport.setEmployee(employee);
             newReport.setClient(client);
@@ -50,29 +50,26 @@ public class ReportServiceImpl implements ReportService {
         }).toList();
 
         if (!validateWorkedHours(reports, MIN_HOURS_PER_DAY)) {
-            return false;
+            return Collections.emptyList();
         }
 
         return saveAll(reports);
     }
-
     @Override
-    public boolean save(Report report) {
+    public Report save(Report report) {
         try {
-            reportRepository.save(report);
-            return true;
+            return reportRepository.save(report);
         } catch (Exception exception) {
-            return false;
+            return null;
         }
     }
 
     @Override
-    public boolean saveAll(List<Report> reports) {
+    public List<Report> saveAll(List<Report> reports) {
         try {
-            reportRepository.saveAll(reports);
-            return true;
+            return reportRepository.saveAll(reports);
         } catch (Exception exception) {
-            return false;
+            return Collections.emptyList();
         }
     }
 

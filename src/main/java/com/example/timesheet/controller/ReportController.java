@@ -1,6 +1,9 @@
 package com.example.timesheet.controller;
 
+import com.example.timesheet.model.dto.report.ReportDTO;
 import com.example.timesheet.model.dto.report.request.ReportAddRequestDTO;
+import com.example.timesheet.model.entity.Report;
+import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.service.ReportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,29 +15,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/report")
+@Validated
 public class ReportController {
 
+    private final CustomModelMapper modelMapper;
     private final ReportService reportService;
 
-    public ReportController(ReportService reportService) {
+    public ReportController(ReportService reportService, CustomModelMapper modelMapper) {
         this.reportService = reportService;
+        this.modelMapper = modelMapper;
     }
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_WORKER')")
-    public ResponseEntity<String> addNewReport(@Validated @RequestBody List<ReportAddRequestDTO> reportsAddRequestDTO,
-                                               Authentication authentication) {
+    public ResponseEntity<List<ReportDTO>> addNewReport(@RequestBody List<@Valid ReportAddRequestDTO> reportsAddRequestDTO,
+                                                        Authentication authentication) {
 
-        boolean created = reportService.addNewReports(reportsAddRequestDTO, authentication);
+        List<Report> createdReports = reportService.addNewReports(reportsAddRequestDTO, authentication);
 
-        if (!created) {
+        if (createdReports.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<ReportDTO> reportsDTO = modelMapper.mapAll(createdReports, ReportDTO.class);
+        return new ResponseEntity<>(reportsDTO, HttpStatus.OK);
     }
 }
