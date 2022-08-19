@@ -15,8 +15,7 @@ public class ReportAddRequestDTO {
     @Length(min = 3, max = 50, message = "Description must be between 3 and 50 characters.")
     private String description;
 
-    @DecimalMin(value = "0.5", message = "Hours must not be less than 0.5")
-    @DecimalMax(value = "7.5", message = "Hours must not be longer than 7.5")
+    @NotEmpty(message = "Hours is mandatory")
     private Double hours;
 
     private Double overtime;

@@ -1,7 +1,6 @@
 package com.example.timesheet.controller;
 
 import com.example.timesheet.model.dto.report.request.ReportAddRequestDTO;
-import com.example.timesheet.model.entity.Report;
 import com.example.timesheet.service.ReportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/report")
@@ -25,12 +26,12 @@ public class ReportController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_WORKER')")
-    public ResponseEntity<String> addNewReport(@Validated @RequestBody ReportAddRequestDTO reportAddRequestDTO,
+    public ResponseEntity<String> addNewReport(@Validated @RequestBody List<ReportAddRequestDTO> reportsAddRequestDTO,
                                                Authentication authentication) {
 
-        Report createdReport = reportService.addNewReport(reportAddRequestDTO, authentication);
+        boolean created = reportService.addNewReports(reportsAddRequestDTO, authentication);
 
-        if (createdReport == null) {
+        if (!created) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
