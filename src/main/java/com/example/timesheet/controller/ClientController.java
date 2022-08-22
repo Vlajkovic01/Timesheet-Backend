@@ -43,15 +43,11 @@ public class ClientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ClientDTO>> getClients(@RequestBody SearchRequestDTO searchRequestDTO,
+    public ResponseEntity<List<ClientDTO>> getClients(@RequestBody(required = false) SearchRequestDTO searchRequestDTO,
                                                       @RequestParam(defaultValue = "0") Integer pageNo,
                                                       @RequestParam(defaultValue = "10") Integer pageSize) {
 
         List<Client> clients = clientService.findClients(searchRequestDTO, pageNo, pageSize);
-
-        if (clients.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
 
         List<ClientDTO> clientsDTO = modelMapper.mapAll(clients, ClientDTO.class);
 

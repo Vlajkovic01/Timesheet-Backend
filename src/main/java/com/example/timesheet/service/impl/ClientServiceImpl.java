@@ -65,6 +65,10 @@ public class ClientServiceImpl implements ClientService {
         Pageable paging = PageRequest.of(pageNo, pageSize);
         Page<Client> pagedResult = Page.empty();
 
+        if (searchRequestDTO == null) {
+            searchRequestDTO = new SearchRequestDTO();
+        }
+
         if (searchRequestDTO.getFirstLetter() != null) {
             pagedResult = clientRepository.findClientsByNameStartsWith(searchRequestDTO.getFirstLetter(), paging);
         }
