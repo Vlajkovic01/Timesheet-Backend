@@ -2,6 +2,7 @@ package com.example.timesheet.controller;
 
 import com.example.timesheet.model.dto.client.ClientDTO;
 import com.example.timesheet.model.dto.client.response.ClientResponseDTO;
+import com.example.timesheet.model.dto.search.SearchRequestDTO;
 import com.example.timesheet.model.entity.Client;
 import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.service.ClientService;
@@ -10,10 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/client")
@@ -40,5 +40,21 @@ public class ClientController {
 
         ClientResponseDTO clientResponseDTO = modelMapper.map(createdClient, ClientResponseDTO.class);
         return new ResponseEntity<>(clientResponseDTO, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ClientDTO>> getClients(@RequestBody SearchRequestDTO searchRequestDTO,
+                                                      @RequestParam(defaultValue = "0") Integer pageNo,
+                                                      @RequestParam(defaultValue = "10") Integer pageSize) {
+
+        List<Client> clients = clientService.findClients(searchRequestDTO, pageNo, pageSize);
+
+        if (clients.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        List<ClientDTO> clientsDTO = modelMapper.mapAll(clients, ClientDTO.class);
+
+        return new ResponseEntity<>(clientsDTO, HttpStatus.OK);
     }
 }
