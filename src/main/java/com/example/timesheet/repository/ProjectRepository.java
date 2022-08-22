@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
     boolean existsProjectByNameAndClient(String name, Client client);
+    Project findProjectByNameAndClient(String name, Client client);
 }

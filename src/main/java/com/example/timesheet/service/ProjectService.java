@@ -9,5 +9,8 @@ public interface ProjectService {
     Project addNewProject(ProjectAddRequestDTO projectAddRequestDTO, Authentication authentication);
 
     boolean existsProjectByNameAndClient(String name, Client client);
+
+    Project findProjectByNameAndClient(String name, Client client);
+
     void save(Project project);
 }
