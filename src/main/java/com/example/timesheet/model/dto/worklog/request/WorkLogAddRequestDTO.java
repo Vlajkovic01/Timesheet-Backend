@@ -1,4 +1,4 @@
-package com.example.timesheet.model.dto.report.request;
+package com.example.timesheet.model.dto.worklog.request;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -9,7 +9,7 @@ import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 
 @Data
-public class ReportAddRequestDTO {
+public class WorkLogAddRequestDTO {
 
     private LocalDate date;
 

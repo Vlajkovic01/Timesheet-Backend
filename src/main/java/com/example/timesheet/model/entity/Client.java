@@ -24,7 +24,7 @@ public class Client {
 
 
     @OneToMany(mappedBy = "client")
-    private Set<Report> reports = new HashSet<>();
+    private Set<WorkLog> workLogs = new HashSet<>();
 
     @OneToMany(mappedBy = "client")
     private Set<Project> projects = new HashSet<>();

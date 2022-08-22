@@ -1,4 +1,4 @@
-package com.example.timesheet.model.dto.report;
+package com.example.timesheet.model.dto.worklog;
 
 import com.example.timesheet.model.dto.category.CategoryDTO;
 import com.example.timesheet.model.dto.employee.EmployeeDTO;
@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Data
-public class ReportDTO {
+public class WorkLogDTO {
     private Integer id;
     @NotEmpty(message = "Date is mandatory")
     private LocalDate date;

@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-public class Report {
+public class WorkLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
