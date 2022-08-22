@@ -1,6 +1,5 @@
 package com.example.timesheet.model.dto.client;
 
-import com.example.timesheet.model.dto.country.CountryDTO;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -21,5 +20,6 @@ public class ClientDTO {
     private String city;
     @NotNull(message = "Zip is mandatory")
     private Integer zip;
-    private CountryDTO country;
+    @NotBlank(message = "Country is mandatory")
+    private String country;
 }

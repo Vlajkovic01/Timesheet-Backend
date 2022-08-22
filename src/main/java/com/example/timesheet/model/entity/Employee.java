@@ -20,6 +20,7 @@ public class Employee {
     private String username;
     private String password;
     private String email;
+    private Double hoursPerWeek;
 
     @Column
     @Enumerated(EnumType.STRING)
