@@ -9,18 +9,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/report")
-@Validated
 public class ReportController {
 
     private final CustomModelMapper modelMapper;
@@ -33,7 +30,7 @@ public class ReportController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_WORKER')")
-    public ResponseEntity<List<ReportDTO>> addNewReport(@RequestBody List<@Valid ReportAddRequestDTO> reportsAddRequestDTO,
+    public ResponseEntity<List<ReportDTO>> addNewReport(@RequestBody List<ReportAddRequestDTO> reportsAddRequestDTO,
                                                         Authentication authentication) {
 
         List<Report> createdReports = reportService.addNewReports(reportsAddRequestDTO, authentication);
