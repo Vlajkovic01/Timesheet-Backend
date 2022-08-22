@@ -1,13 +1,13 @@
-package com.example.timesheet.model.dto.report.response;
+package com.example.timesheet.model.dto.worklog.response;
 
 import com.example.timesheet.model.dto.project.ProjectDTO;
-import com.example.timesheet.model.dto.report.ReportDTO;
+import com.example.timesheet.model.dto.worklog.WorkLogDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ReportWithoutClientDTO extends ReportDTO {
+public class WorkLogWithoutClientDTO extends WorkLogDTO {
 
     private ProjectDTO project;
 }
