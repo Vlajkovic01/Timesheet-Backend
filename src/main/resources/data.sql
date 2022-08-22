@@ -4,12 +4,12 @@ select * from project;
 select * from client;
 select * from category;
 
-insert into employee(name, username, password, email, status, role) 
-	values ('Stefan Vlajkovic', 'stefan', '$2a$04$Bh0cdJ19RbVcJ1LEEtY8Bu2shfhH5Vkm/xVa.DdozXuMUt8tOCXCW', 'vlajkovicstefan01@gmail.com', 'ACTIVE', 'ADMIN');    
-insert into employee(name, username, password, email, status, role) 
-	values ('Nikola Nikolic', 'nikola', '$2a$04$2fft5WW4rqrPyT60YLcIe.vQHZd.bI5JpSrCsKwYoNBj3SYcIomqu', 'nikolanikolic01@gmail.com', 'ACTIVE', 'WORKER');
-insert into employee(name, username, password, email, status, role) 
-	values ('Petar Petrovic', 'petar', '$2a$04$J8Wxff0jw8yiA.YyGhB3ROUW/dAWYSO2E9Hw23s9byq7/H03RsfZy', 'petarpetrovic01@gmail.com', 'ACTIVE', 'WORKER');
+insert into employee(name, username, password, email, status, role, hours_per_week) 
+	values ('Stefan Vlajkovic', 'stefan', '$2a$04$Bh0cdJ19RbVcJ1LEEtY8Bu2shfhH5Vkm/xVa.DdozXuMUt8tOCXCW', 'vlajkovicstefan01@gmail.com', 'ACTIVE', 'ADMIN', 40);    
+insert into employee(name, username, password, email, status, role, hours_per_week) 
+	values ('Nikola Nikolic', 'nikola', '$2a$04$2fft5WW4rqrPyT60YLcIe.vQHZd.bI5JpSrCsKwYoNBj3SYcIomqu', 'nikolanikolic01@gmail.com', 'ACTIVE', 'WORKER', 40);
+insert into employee(name, username, password, email, status, role, hours_per_week) 
+	values ('Petar Petrovic', 'petar', '$2a$04$J8Wxff0jw8yiA.YyGhB3ROUW/dAWYSO2E9Hw23s9byq7/H03RsfZy', 'petarpetrovic01@gmail.com', 'ACTIVE', 'WORKER', 40);
     
 insert into category (name) values ('Ui');    
 insert into category (name) values ('UX');    
