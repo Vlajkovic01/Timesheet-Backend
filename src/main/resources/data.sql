@@ -2,7 +2,6 @@ select * from employee;
 select * from report;
 select * from project;
 select * from client;
-select * from country;
 select * from category;
 
 insert into employee(name, username, password, email, status, role) 
@@ -12,21 +11,16 @@ insert into employee(name, username, password, email, status, role)
 insert into employee(name, username, password, email, status, role) 
 	values ('Petar Petrovic', 'petar', '$2a$04$J8Wxff0jw8yiA.YyGhB3ROUW/dAWYSO2E9Hw23s9byq7/H03RsfZy', 'petarpetrovic01@gmail.com', 'ACTIVE', 'WORKER');
     
-insert into country (name) values ('California');    
-insert into country (name) values ('Serbia');    
-insert into country (name) values ('France');    
-insert into country (name) values ('Russia');
-    
 insert into category (name) values ('Ui');    
 insert into category (name) values ('UX');    
 insert into category (name) values ('Backend');    
 insert into category (name) values ('Security');    
     
-insert into client (name, address, city, zip, country_id) 
-	values ('Apple', '1 infinitive loop', 'Cupertino', 95014, 1);
+insert into client (name, address, city, zip, country) 
+	values ('Apple', '1 infinitive loop', 'Cupertino', 95014, 'California');
     
-insert into client (name, address, city, zip, country_id) 
-	values ('Vega', 'Novosadskog Sajma 2', 'Novi Sad', 21000, 2);
+insert into client (name, address, city, zip, country) 
+	values ('Vega', 'Novosadskog Sajma 2', 'Novi Sad', 21000, 'Serbia');
     
 insert into project (name, description, status, employee_id, client_id)
 	values ('Test Project 1', 'Description for test project 1', 'ACTIVE', 2, 1);

@@ -20,10 +20,8 @@ public class Client {
     private String address;
     private String city;
     private Integer zip;
+    private String country;
 
-    @ManyToOne
-    @JoinColumn(name = "country_id")
-    private Country country;
 
     @OneToMany(mappedBy = "client")
     private Set<Report> reports = new HashSet<>();
