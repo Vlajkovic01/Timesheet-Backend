@@ -1,5 +1,5 @@
 select * from employee;
-select * from workLog;
+select * from work_log;
 select * from project;
 select * from client;
 select * from category;
@@ -27,9 +27,9 @@ insert into project (name, description, status, employee_id, client_id)
 insert into project (name, description, status, employee_id, client_id)
 	values ('Test Project 2', 'Description for test project 2', 'ACTIVE', 2, 2);
     
-insert into workLog(date, description, hours, overtime, client_id, project_id, employee_id, category_id)
+insert into work_log(date, description, hours, overtime, client_id, project_id, employee_id, category_id)
 	values ('2022-08-10', 'Test description for workLog 1', 7.5, 0, 1, 1, 2, 3);
     
-insert into workLog(date, description, hours, overtime, client_id, project_id, employee_id, category_id)
+insert into work_log(date, description, hours, overtime, client_id, project_id, employee_id, category_id)
 	values ('2022-08-10', 'Test description for workLog 2', 7.0, 0, 2, 2, 2, 4);
     
