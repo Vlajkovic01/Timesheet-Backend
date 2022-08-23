@@ -8,7 +8,6 @@ import com.example.timesheet.repository.ClientRepository;
 import com.example.timesheet.service.ClientService;
 import com.example.timesheet.service.EmployeeService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;

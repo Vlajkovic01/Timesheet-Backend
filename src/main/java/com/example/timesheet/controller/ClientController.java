@@ -7,7 +7,6 @@ import com.example.timesheet.model.entity.Client;
 import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.service.ClientService;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
