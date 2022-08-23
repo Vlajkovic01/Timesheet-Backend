@@ -1,6 +1,7 @@
 package com.example.timesheet.service.impl;
 
 import com.example.timesheet.model.dto.project.request.ProjectAddRequestDTO;
+import com.example.timesheet.model.dto.search.SearchRequestDTO;
 import com.example.timesheet.model.entity.Client;
 import com.example.timesheet.model.entity.Employee;
 import com.example.timesheet.model.entity.Project;
@@ -9,8 +10,13 @@ import com.example.timesheet.repository.ProjectRepository;
 import com.example.timesheet.service.ClientService;
 import com.example.timesheet.service.EmployeeService;
 import com.example.timesheet.service.ProjectService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -67,6 +73,29 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project findProjectByNameAndClient(String name, Client client) {
         return projectRepository.findProjectByNameAndClient(name, client);
+    }
+
+    @Override
+    public List<Project> findProjects(SearchRequestDTO searchRequestDTO, Pageable pageable) {
+        Page<Project> pagedResult = Page.empty();
+
+        if (searchRequestDTO == null) {
+            return projectRepository.findAll(pageable).getContent();
+        }
+
+        if (searchRequestDTO.getSearchFilter() != null) {
+            pagedResult = projectRepository.findProjectsByNameStartsWith(searchRequestDTO.getSearchFilter(), pageable);
+        }
+
+        if (searchRequestDTO.getSearchQuery() != null) {
+            pagedResult = projectRepository.findProjectsByName(searchRequestDTO.getSearchQuery(), pageable);
+        }
+
+        if (pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     @Override
