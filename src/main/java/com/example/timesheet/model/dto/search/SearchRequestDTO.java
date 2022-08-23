@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class SearchRequestDTO {
 
-    private String firstLetter = "A";
-    private String name;
+    private String searchQuery;
+    private String searchFilter;
 }

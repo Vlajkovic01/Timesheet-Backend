@@ -16,4 +16,6 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
     Page<Client> findClientsByNameStartsWith(String letter, Pageable pageable);
 
     Page<Client> findClientsByName(String name, Pageable pageable);
+
+    Page<Client> findAll(Pageable pageable);
 }

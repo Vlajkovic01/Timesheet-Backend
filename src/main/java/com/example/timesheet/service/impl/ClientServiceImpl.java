@@ -60,21 +60,20 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<Client> findClients(SearchRequestDTO searchRequestDTO, Integer pageNo, Integer pageSize) {
+    public List<Client> findClients(SearchRequestDTO searchRequestDTO, Pageable pageable) {
 
-        Pageable paging = PageRequest.of(pageNo, pageSize);
         Page<Client> pagedResult = Page.empty();
 
         if (searchRequestDTO == null) {
-            searchRequestDTO = new SearchRequestDTO();
+            return clientRepository.findAll(pageable).getContent();
         }
 
-        if (searchRequestDTO.getFirstLetter() != null) {
-            pagedResult = clientRepository.findClientsByNameStartsWith(searchRequestDTO.getFirstLetter(), paging);
+        if (searchRequestDTO.getSearchFilter() != null) {
+            pagedResult = clientRepository.findClientsByNameStartsWith(searchRequestDTO.getSearchFilter(), pageable);
         }
 
-        if (searchRequestDTO.getName() != null) {
-            pagedResult = clientRepository.findClientsByName(searchRequestDTO.getName(), paging);
+        if (searchRequestDTO.getSearchQuery() != null) {
+            pagedResult = clientRepository.findClientsByName(searchRequestDTO.getSearchQuery(), pageable);
         }
 
         if (pagedResult.hasContent()) {
