@@ -17,6 +17,4 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM category " +
             "WHERE (:searchQuery IS NULL OR category.name LIKE CONCAT(:searchQuery, '%'))")
     Page<Category> filterAll(String searchQuery, Pageable pageable);
-
-    Page<Category> findAll(Pageable pageable);
 }
