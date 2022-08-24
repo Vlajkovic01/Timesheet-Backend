@@ -41,10 +41,10 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> getClients(@RequestBody(required = false) SearchRequestDTO searchRequestDTO,
+    public ResponseEntity<List<CategoryDTO>> getClients(@RequestParam(required = false, name = "name") String searchQuery,
                                                         Pageable pageable) {
 
-        List<Category> categories = categoryService.findCategories(searchRequestDTO, pageable);
+        List<Category> categories = categoryService.findCategories(searchQuery, pageable);
 
         List<CategoryDTO> categoriesDTO = modelMapper.mapAll(categories, CategoryDTO.class);
         return new ResponseEntity<>(categoriesDTO, HttpStatus.OK);
