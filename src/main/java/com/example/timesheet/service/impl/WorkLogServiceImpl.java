@@ -1,5 +1,6 @@
 package com.example.timesheet.service.impl;
 
+import com.example.timesheet.model.dto.search.ReportRequestDTO;
 import com.example.timesheet.model.dto.worklog.request.WorkLogAddRequestDTO;
 import com.example.timesheet.model.entity.Client;
 import com.example.timesheet.model.entity.Employee;
@@ -7,6 +8,8 @@ import com.example.timesheet.model.entity.WorkLog;
 import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.repository.WorkLogRepository;
 import com.example.timesheet.service.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -81,5 +84,17 @@ public class WorkLogServiceImpl implements WorkLogService {
         }
 
         return workedHours >= minRequirementHours;
+    }
+
+    @Override
+    public List<WorkLog> findWorkLogs(ReportRequestDTO reportRequestDTO, Pageable pageable) {
+        Page<WorkLog> pagedResult = Page.empty();
+
+        if (reportRequestDTO == null) {
+            return pagedResult.getContent();
+        }
+         pagedResult = workLogRepository.filterAll(reportRequestDTO, pageable);
+
+        return pagedResult.getContent();
     }
 }
