@@ -6,8 +6,11 @@ import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.repository.CategoryRepository;
 import com.example.timesheet.service.CategoryService;
 import com.example.timesheet.service.EmployeeService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -50,6 +53,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category findCategoryByName(String name) {
         return categoryRepository.findCategoryByName(name);
+    }
+
+    @Override
+    public List<Category> findCategories(String searchQuery, Pageable pageable) {
+        return categoryRepository.filterAll(searchQuery, pageable).getContent();
     }
 
     @Override
