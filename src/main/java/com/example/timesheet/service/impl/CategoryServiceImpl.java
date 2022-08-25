@@ -1,5 +1,6 @@
 package com.example.timesheet.service.impl;
 
+import com.example.timesheet.exception.BadRequestException;
 import com.example.timesheet.model.dto.category.CategoryDTO;
 import com.example.timesheet.model.entity.Category;
 import com.example.timesheet.model.mapper.CustomModelMapper;
@@ -61,6 +62,26 @@ public class CategoryServiceImpl implements CategoryService {
             return categoryRepository.findAll(pageable).getContent();
         }
         return categoryRepository.filterAll(searchQuery, pageable).getContent();
+    }
+
+    @Override
+    public Category updateCategory(CategoryDTO categoryDTO) {
+        Category categoryForUpdate = findCategoryById(categoryDTO.getId());
+
+        if (categoryForUpdate == null || existsCategory(categoryDTO.getName())) {
+            throw new BadRequestException("Please provide a valid category data.");
+        }
+
+        categoryForUpdate.setName(categoryDTO.getName());
+
+        save(categoryForUpdate);
+
+        return categoryForUpdate;
+    }
+
+    @Override
+    public Category findCategoryById(Integer id) {
+        return categoryRepository.findCategoryById(id);
     }
 
     @Override
