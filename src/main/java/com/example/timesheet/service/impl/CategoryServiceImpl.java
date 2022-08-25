@@ -66,10 +66,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category updateCategory(CategoryDTO categoryDTO) {
-        Category categoryForUpdate = findCategoryById(categoryDTO.getId());
 
+        if (categoryDTO == null || categoryDTO.getId() == null) {
+            throw new BadRequestException("Please provide all data");
+        }
+
+        Category categoryForUpdate = findCategoryById(categoryDTO.getId());
         if (categoryForUpdate == null || existsCategory(categoryDTO.getName())) {
-            throw new BadRequestException("Please provide a valid category data.");
+            throw new BadRequestException("Please provide a valid category data");
         }
 
         categoryForUpdate.setName(categoryDTO.getName());
