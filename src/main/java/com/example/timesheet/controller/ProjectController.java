@@ -1,5 +1,6 @@
 package com.example.timesheet.controller;
 
+import com.example.timesheet.exception.BadRequestException;
 import com.example.timesheet.model.dto.project.ProjectDTO;
 import com.example.timesheet.model.dto.project.request.ProjectAddRequestDTO;
 import com.example.timesheet.model.dto.project.response.ProjectResponseDTO;
@@ -51,5 +52,20 @@ public class ProjectController {
 
         List<ProjectResponseDTO> projectsDTO = modelMapper.mapAll(projects, ProjectResponseDTO.class);
         return new ResponseEntity<>(projectsDTO, HttpStatus.OK);
+    }
+
+    @PutMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<ProjectResponseDTO> updateProject(@Validated @RequestBody ProjectAddRequestDTO projectAddRequestDTO) {
+
+        try {
+            Project updatedProject = projectService.updateProject(projectAddRequestDTO);
+            ProjectResponseDTO projectDTO = modelMapper.map(updatedProject, ProjectResponseDTO.class);
+
+            return new ResponseEntity<>(projectDTO, HttpStatus.OK);
+        } catch (BadRequestException exception) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 }

@@ -17,5 +17,9 @@ public interface ProjectService {
 
     List<Project> findProjects(String searchQuery, Pageable pageable);
 
+    Project updateProject(ProjectAddRequestDTO projectAddRequestDTO);
+
+    Project findProjectByName(String name);
+
     void save(Project project);
 }

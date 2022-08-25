@@ -20,5 +20,6 @@ public class ProjectDTO {
     private String description;
     @NotNull(message = "Status is mandatory")
     private ProjectStatus status;
+    @NotNull(message = "Lead is mandatory")
     private EmployeeDTO lead;
 }

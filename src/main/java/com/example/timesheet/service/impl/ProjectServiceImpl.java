@@ -1,5 +1,6 @@
 package com.example.timesheet.service.impl;
 
+import com.example.timesheet.exception.BadRequestException;
 import com.example.timesheet.model.dto.project.request.ProjectAddRequestDTO;
 import com.example.timesheet.model.entity.Client;
 import com.example.timesheet.model.entity.Employee;
@@ -78,6 +79,32 @@ public class ProjectServiceImpl implements ProjectService {
             return projectRepository.findAll(pageable).getContent();
         }
         return projectRepository.filterAll(searchQuery, pageable).getContent();
+    }
+
+    @Override
+    public Project updateProject(ProjectAddRequestDTO projectAddRequestDTO) {
+
+        Project projectForUpdate = findProjectByName(projectAddRequestDTO.getName());
+        Client client = clientService.findClientByName(projectAddRequestDTO.getClientName());
+        Employee lead = employeeService.findByEmail(projectAddRequestDTO.getLead().getEmail());
+
+        if (projectForUpdate == null || client == null || lead == null) {
+            throw new BadRequestException("Please provide a valid data");
+        }
+
+        projectForUpdate.setDescription(projectAddRequestDTO.getDescription());
+        projectForUpdate.setClient(client);
+        projectForUpdate.setLead(lead);
+        projectForUpdate.setStatus(projectAddRequestDTO.getStatus());
+
+        save(projectForUpdate);
+
+        return projectForUpdate;
+    }
+
+    @Override
+    public Project findProjectByName(String name) {
+        return projectRepository.findProjectByName(name);
     }
 
     @Override
