@@ -3,7 +3,6 @@ package com.example.timesheet.controller;
 import com.example.timesheet.model.dto.project.ProjectDTO;
 import com.example.timesheet.model.dto.project.request.ProjectAddRequestDTO;
 import com.example.timesheet.model.dto.project.response.ProjectResponseDTO;
-import com.example.timesheet.model.dto.search.SearchRequestDTO;
 import com.example.timesheet.model.entity.Project;
 import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.service.ProjectService;
@@ -45,10 +44,10 @@ public class ProjectController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProjectResponseDTO>> getProjects(@RequestBody(required = false) SearchRequestDTO searchRequestDTO,
+    public ResponseEntity<List<ProjectResponseDTO>> getProjects(@RequestParam(required = false, name = "name") String searchQuery,
                                                                 Pageable pageable) {
 
-        List<Project> projects = projectService.findProjects(searchRequestDTO, pageable);
+        List<Project> projects = projectService.findProjects(searchQuery, pageable);
 
         List<ProjectResponseDTO> projectsDTO = modelMapper.mapAll(projects, ProjectResponseDTO.class);
         return new ResponseEntity<>(projectsDTO, HttpStatus.OK);
