@@ -12,14 +12,28 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WorkLogRepository extends JpaRepository<WorkLog, Integer> {
 
-    @Query(nativeQuery = true, value = "SELECT * FROM work_log " +
-            "WHERE (:#{#searchParameters.client.id} IS NULL OR work_log.client_id = :#{#searchParameters.client.id}) " +
-            "AND (:#{#searchParameters.project.id} IS NULL OR work_log.project_id = :#{#searchParameters.project.id}) " +
-            "AND (:#{#searchParameters.category.id} IS NULL OR work_log.category_id = :#{#searchParameters.category.id}) " +
-            "AND (:#{#searchParameters.employee.id} IS NULL OR work_log.employee_id = :#{#searchParameters.employee.id}) " +
-            "AND (:#{#searchParameters.quickDateWeek} IS NULL OR WEEK(work_log.date) = WEEK(:#{#searchParameters.quickDateWeek})) " +
-            "AND (:#{#searchParameters.quickDateMonth} IS NULL OR MONTH(work_log.date) =  MONTH(:#{#searchParameters.quickDateMonth})) " +
-            "AND (:#{#searchParameters.startDate} IS NULL OR work_log.date > :#{#searchParameters.startDate}) " +
-            "AND (:#{#searchParameters.endDate} IS NULL OR work_log.date < :#{#searchParameters.endDate}) ")
-    Page<WorkLog> filterAll(@Param("searchParameters") ReportRequestDTO searchParameters, Pageable pageable);
+    @Query(value = "SELECT worklog FROM WorkLog worklog " +
+            "WHERE (worklog.client.id = :#{#searchParameters.client.id}) " +
+            "AND (worklog.project.id = :#{#searchParameters.project.id}) " +
+            "AND (worklog.category.id = :#{#searchParameters.category.id}) " +
+            "AND (worklog.employee.id = :#{#searchParameters.employee.id}) " +
+            "AND (worklog.date > :#{#searchParameters.startDate}) " +
+            "AND (worklog.date < :#{#searchParameters.endDate})")
+    Page<WorkLog> generateReport(@Param("searchParameters") ReportRequestDTO searchParameters, Pageable pageable);
+
+    @Query(value = "SELECT worklog FROM WorkLog worklog " +
+            "WHERE (worklog.client.id = :#{#searchParameters.client.id}) " +
+            "AND (worklog.project.id = :#{#searchParameters.project.id}) " +
+            "AND (worklog.category.id = :#{#searchParameters.category.id}) " +
+            "AND (worklog.employee.id = :#{#searchParameters.employee.id}) " +
+            "AND (WEEK(worklog.date) = WEEK(:#{#searchParameters.quickDateWeek}))")
+    Page<WorkLog> generateReportWithQuickDateWeek(@Param("searchParameters") ReportRequestDTO searchParameters, Pageable pageable);
+
+    @Query(value = "SELECT worklog FROM WorkLog worklog " +
+            "WHERE (worklog.client.id = :#{#searchParameters.client.id}) " +
+            "AND (worklog.project.id = :#{#searchParameters.project.id}) " +
+            "AND (worklog.category.id = :#{#searchParameters.category.id}) " +
+            "AND (worklog.employee.id = :#{#searchParameters.employee.id}) " +
+            "AND (MONTH(worklog.date) = MONTH(:#{#searchParameters.quickDateMonth}))")
+    Page<WorkLog> generateReportWithQuickDateMonth(@Param("searchParameters") ReportRequestDTO searchParameters, Pageable pageable);
 }

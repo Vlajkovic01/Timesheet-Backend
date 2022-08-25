@@ -1,5 +1,6 @@
 package com.example.timesheet.service.impl;
 
+import com.example.timesheet.exception.BadRequestException;
 import com.example.timesheet.model.dto.search.ReportRequestDTO;
 import com.example.timesheet.model.dto.worklog.request.WorkLogAddRequestDTO;
 import com.example.timesheet.model.entity.Client;
@@ -57,6 +58,7 @@ public class WorkLogServiceImpl implements WorkLogService {
 
         return saveAll(workLogs);
     }
+
     @Override
     public WorkLog save(WorkLog workLog) {
         try {
@@ -87,14 +89,24 @@ public class WorkLogServiceImpl implements WorkLogService {
     }
 
     @Override
-    public List<WorkLog> findWorkLogs(ReportRequestDTO reportRequestDTO, Pageable pageable) {
-        Page<WorkLog> pagedResult = Page.empty();
+    public List<WorkLog> generateReport(ReportRequestDTO reportRequestDTO, Pageable pageable) throws BadRequestException {
 
         if (reportRequestDTO == null) {
-            return pagedResult.getContent();
+            throw new BadRequestException("Please provide a valid search parameters!");
         }
-         pagedResult = workLogRepository.filterAll(reportRequestDTO, pageable);
 
-        return pagedResult.getContent();
+        if (reportRequestDTO.getStartDate() != null && reportRequestDTO.getEndDate() != null) {
+            return workLogRepository.generateReport(reportRequestDTO, pageable).getContent();
+        }
+
+        if (reportRequestDTO.getQuickDateWeek() != null) {
+            return workLogRepository.generateReportWithQuickDateWeek(reportRequestDTO, pageable).getContent();
+        }
+
+        if (reportRequestDTO.getQuickDateMonth() != null) {
+            return workLogRepository.generateReportWithQuickDateMonth(reportRequestDTO, pageable).getContent();
+        }
+
+        throw new BadRequestException("Please provide all required search parameters!");
     }
 }

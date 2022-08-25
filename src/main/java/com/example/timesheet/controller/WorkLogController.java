@@ -1,5 +1,6 @@
 package com.example.timesheet.controller;
 
+import com.example.timesheet.exception.BadRequestException;
 import com.example.timesheet.model.dto.search.ReportRequestDTO;
 import com.example.timesheet.model.dto.worklog.WorkLogDTO;
 import com.example.timesheet.model.dto.worklog.request.WorkLogAddRequestDTO;
@@ -7,6 +8,7 @@ import com.example.timesheet.model.dto.worklog.response.WorkLogWithoutClientDTO;
 import com.example.timesheet.model.entity.WorkLog;
 import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.service.WorkLogService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -43,14 +46,17 @@ public class WorkLogController {
         return new ResponseEntity<>(workLogsDTO, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("generate-report")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_WORKER')")
-    public ResponseEntity<List<WorkLogWithoutClientDTO>> getWorkLogs(@RequestBody(required = false) ReportRequestDTO reportRequestDTO,
+    public ResponseEntity<List<WorkLogWithoutClientDTO>> generateReport(@RequestBody(required = false) @Valid ReportRequestDTO reportRequestDTO,
                                                                     Pageable pageable) {
+        try {
+            List<WorkLog> workLogs = workLogService.generateReport(reportRequestDTO, pageable);
+            List<WorkLogWithoutClientDTO> workLogsDTO = modelMapper.mapAll(workLogs, WorkLogWithoutClientDTO.class);
 
-        List<WorkLog> workLogs = workLogService.findWorkLogs(reportRequestDTO, pageable);
-
-        List<WorkLogWithoutClientDTO> workLogsDTO = modelMapper.mapAll(workLogs, WorkLogWithoutClientDTO.class);
-        return new ResponseEntity<>(workLogsDTO, HttpStatus.OK);
+            return new ResponseEntity<>(workLogsDTO, HttpStatus.OK);
+        } catch (BadRequestException exception) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.timesheet.service;
 
+import com.example.timesheet.exception.BadRequestException;
 import com.example.timesheet.model.dto.search.ReportRequestDTO;
 import com.example.timesheet.model.dto.worklog.request.WorkLogAddRequestDTO;
 import com.example.timesheet.model.entity.WorkLog;
@@ -18,5 +19,5 @@ public interface WorkLogService {
 
     boolean validateWorkedHours(List<WorkLog> workLogs, double minRequirementHours);
 
-    List<WorkLog> findWorkLogs(ReportRequestDTO reportRequestDTO, Pageable pageable);
+    List<WorkLog> generateReport(ReportRequestDTO reportRequestDTO, Pageable pageable) throws BadRequestException;
 }
