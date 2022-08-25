@@ -1,5 +1,6 @@
 package com.example.timesheet.service.impl;
 
+import com.example.timesheet.exception.BadRequestException;
 import com.example.timesheet.model.dto.employee.request.EmployeeAddRequestDTO;
 import com.example.timesheet.model.entity.Employee;
 import com.example.timesheet.model.enumeration.Role;
@@ -56,6 +57,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee currentLoggedUser = findCurrentLoggedUser(authentication);
 
         return currentLoggedUser.getRole() == Role.ADMIN;
+    }
+
+    @Override
+    public Employee updateEmployee(EmployeeAddRequestDTO employeeAddRequestDTO) {
+        Employee employee = findByEmail(employeeAddRequestDTO.getEmail());
+
+        if (employee == null) {
+            throw new BadRequestException("Please provide a valid Employee data");
+        }
+
+        employee.setName(employeeAddRequestDTO.getName());
+        employee.setUsername(employeeAddRequestDTO.getUsername());
+        employee.setHoursPerWeek(employeeAddRequestDTO.getHoursPerWeek());
+        employee.setStatus(employeeAddRequestDTO.getStatus());
+        employee.setRole(employeeAddRequestDTO.getRole());
+
+        return save(employee);
     }
 
     @Override
