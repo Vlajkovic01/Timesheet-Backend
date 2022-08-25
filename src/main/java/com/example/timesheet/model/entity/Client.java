@@ -1,6 +1,6 @@
 package com.example.timesheet.model.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -23,9 +23,9 @@ public class Client {
     private String country;
 
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private Set<WorkLog> workLogs = new HashSet<>();
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private Set<Project> projects = new HashSet<>();
 }

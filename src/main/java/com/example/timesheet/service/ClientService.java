@@ -10,8 +10,14 @@ import java.util.List;
 public interface ClientService {
 
     Client addNewClient(ClientDTO clientDTO, Authentication authentication);
+
     Client findClientByName(String name);
+
     boolean existsClient(Client client);
+
     List<Client> findClients(String searchQuery, Pageable pageable);
+
+    Client updateClient(ClientDTO clientDTO, Authentication authentication);
+
     void save(Client client);
 }

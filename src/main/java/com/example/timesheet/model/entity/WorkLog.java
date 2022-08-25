@@ -1,11 +1,13 @@
 package com.example.timesheet.model.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Data
+@EqualsAndHashCode(exclude = "client")
+@ToString(exclude = "client")
 @Entity
 public class WorkLog {
 
