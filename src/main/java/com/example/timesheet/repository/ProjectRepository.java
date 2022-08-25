@@ -19,4 +19,5 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
     Page<Project> filterAll(String searchQuery, Pageable pageable);
 
     Page<Project> findAll(Pageable pageable);
+    Project findProjectByName(String name);
 }
