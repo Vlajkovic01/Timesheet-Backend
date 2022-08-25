@@ -1,5 +1,6 @@
 package com.example.timesheet.controller;
 
+import com.example.timesheet.exception.BadRequestException;
 import com.example.timesheet.model.dto.category.CategoryDTO;
 import com.example.timesheet.model.entity.Category;
 import com.example.timesheet.model.mapper.CustomModelMapper;
@@ -47,5 +48,19 @@ public class CategoryController {
 
         List<CategoryDTO> categoriesDTO = modelMapper.mapAll(categories, CategoryDTO.class);
         return new ResponseEntity<>(categoriesDTO, HttpStatus.OK);
+    }
+
+    @PutMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Category> updateCategory(@Validated @RequestBody CategoryDTO categoryDTO) {
+
+        try {
+            Category createdCategory = categoryService.updateCategory(categoryDTO);
+            return new ResponseEntity<>(createdCategory, HttpStatus.OK);
+        } catch (BadRequestException exception) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+
     }
 }

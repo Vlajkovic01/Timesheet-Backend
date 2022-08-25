@@ -18,4 +18,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     Page<Category> filterAll(String searchQuery, Pageable pageable);
 
     Page<Category> findAll(Pageable pageable);
+
+    Category findCategoryById(Integer id);
 }
