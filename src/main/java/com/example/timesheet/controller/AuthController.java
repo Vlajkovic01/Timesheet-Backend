@@ -1,5 +1,8 @@
 package com.example.timesheet.controller;
 
+import com.example.timesheet.exception.BadRequestException;
+import com.example.timesheet.exception.PasswordMatchException;
+import com.example.timesheet.model.dto.auth.request.ChangePasswordRequestDTO;
 import com.example.timesheet.model.dto.auth.request.LoginRequestDTO;
 import com.example.timesheet.model.dto.auth.response.UserTokenState;
 import com.example.timesheet.model.dto.employee.EmployeeDTO;
@@ -7,6 +10,7 @@ import com.example.timesheet.model.dto.employee.request.EmployeeAddRequestDTO;
 import com.example.timesheet.model.entity.Employee;
 import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.security.TokenUtils;
+import com.example.timesheet.service.AuthService;
 import com.example.timesheet.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,25 +21,24 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "api/auth")
 public class AuthController {
 
+    private final AuthService authService;
     private final CustomModelMapper modelMapper;
     private final EmployeeService employeeService;
     private final AuthenticationManager authenticationManager;
     private final TokenUtils tokenUtils;
 
-    public AuthController(TokenUtils tokenUtils, AuthenticationManager authenticationManager, EmployeeService employeeService, CustomModelMapper modelMapper) {
+    public AuthController(TokenUtils tokenUtils, AuthenticationManager authenticationManager, EmployeeService employeeService, CustomModelMapper modelMapper, AuthService authService) {
         this.tokenUtils = tokenUtils;
         this.authenticationManager = authenticationManager;
         this.employeeService = employeeService;
         this.modelMapper = modelMapper;
+        this.authService = authService;
     }
 
     @PostMapping(value = "/login")
@@ -65,6 +68,18 @@ public class AuthController {
         }
         EmployeeDTO newEmployeeDTO = modelMapper.map(createdEmployee, EmployeeDTO.class);
         return new ResponseEntity<>(newEmployeeDTO, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/password")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_WORKER')")
+    public ResponseEntity<String> changePassword(@RequestBody @Validated ChangePasswordRequestDTO changePasswordDTO, Authentication authentication) {
+
+        try {
+            authService.changePassword(changePasswordDTO, authentication);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (BadRequestException | PasswordMatchException exception) {
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
