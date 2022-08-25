@@ -1,7 +1,6 @@
 package com.example.timesheet.service;
 
 import com.example.timesheet.model.dto.project.request.ProjectAddRequestDTO;
-import com.example.timesheet.model.dto.search.SearchRequestDTO;
 import com.example.timesheet.model.entity.Client;
 import com.example.timesheet.model.entity.Project;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +15,7 @@ public interface ProjectService {
 
     Project findProjectByNameAndClient(String name, Client client);
 
-    List<Project> findProjects(SearchRequestDTO searchRequestDTO, Pageable pageable);
+    List<Project> findProjects(String searchQuery, Pageable pageable);
 
     void save(Project project);
 }

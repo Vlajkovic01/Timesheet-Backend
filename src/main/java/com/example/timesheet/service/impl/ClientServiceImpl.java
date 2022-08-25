@@ -1,18 +1,15 @@
 package com.example.timesheet.service.impl;
 
 import com.example.timesheet.model.dto.client.ClientDTO;
-import com.example.timesheet.model.dto.search.SearchRequestDTO;
 import com.example.timesheet.model.entity.Client;
 import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.repository.ClientRepository;
 import com.example.timesheet.service.ClientService;
 import com.example.timesheet.service.EmployeeService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -59,27 +56,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<Client> findClients(SearchRequestDTO searchRequestDTO, Pageable pageable) {
-
-        Page<Client> pagedResult = Page.empty();
-
-        if (searchRequestDTO == null) {
+    public List<Client> findClients(String searchQuery, Pageable pageable) {
+        if (searchQuery == null) {
             return clientRepository.findAll(pageable).getContent();
         }
-
-        if (searchRequestDTO.getSearchFilter() != null) {
-            pagedResult = clientRepository.findClientsByNameStartsWith(searchRequestDTO.getSearchFilter(), pageable);
-        }
-
-        if (searchRequestDTO.getSearchQuery() != null) {
-            pagedResult = clientRepository.findClientsByName(searchRequestDTO.getSearchQuery(), pageable);
-        }
-
-        if (pagedResult.hasContent()) {
-            return pagedResult.getContent();
-        } else {
-            return Collections.emptyList();
-        }
+        return clientRepository.filterAll(searchQuery, pageable).getContent();
     }
 
     @Override

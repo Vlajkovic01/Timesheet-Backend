@@ -1,7 +1,6 @@
 package com.example.timesheet.controller;
 
 import com.example.timesheet.model.dto.category.CategoryDTO;
-import com.example.timesheet.model.dto.search.SearchRequestDTO;
 import com.example.timesheet.model.entity.Category;
 import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.service.CategoryService;

@@ -2,7 +2,6 @@ package com.example.timesheet.controller;
 
 import com.example.timesheet.model.dto.client.ClientDTO;
 import com.example.timesheet.model.dto.client.response.ClientResponseDTO;
-import com.example.timesheet.model.dto.search.SearchRequestDTO;
 import com.example.timesheet.model.entity.Client;
 import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.service.ClientService;
@@ -44,10 +43,10 @@ public class ClientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ClientDTO>> getClients(@RequestBody(required = false) SearchRequestDTO searchRequestDTO,
+    public ResponseEntity<List<ClientDTO>> getClients(@RequestParam(required = false, name = "name") String searchQuery,
                                                       Pageable pageable) {
 
-        List<Client> clients = clientService.findClients(searchRequestDTO, pageable);
+        List<Client> clients = clientService.findClients(searchQuery, pageable);
 
         List<ClientDTO> clientsDTO = modelMapper.mapAll(clients, ClientDTO.class);
         return new ResponseEntity<>(clientsDTO, HttpStatus.OK);
