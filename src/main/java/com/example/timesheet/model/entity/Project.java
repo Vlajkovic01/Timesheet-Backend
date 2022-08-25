@@ -1,11 +1,13 @@
 package com.example.timesheet.model.entity;
 
 import com.example.timesheet.model.enumeration.ProjectStatus;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
+@EqualsAndHashCode(exclude = "client")
+@ToString(exclude = "client")
 @Entity
 public class Project {
 

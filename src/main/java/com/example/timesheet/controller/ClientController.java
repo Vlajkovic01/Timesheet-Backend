@@ -1,5 +1,6 @@
 package com.example.timesheet.controller;
 
+import com.example.timesheet.exception.BadRequestException;
 import com.example.timesheet.model.dto.client.ClientDTO;
 import com.example.timesheet.model.dto.client.response.ClientResponseDTO;
 import com.example.timesheet.model.entity.Client;
@@ -50,5 +51,20 @@ public class ClientController {
 
         List<ClientDTO> clientsDTO = modelMapper.mapAll(clients, ClientDTO.class);
         return new ResponseEntity<>(clientsDTO, HttpStatus.OK);
+    }
+
+    @PutMapping()
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<ClientResponseDTO> updateClient(@Validated @RequestBody ClientDTO clientDTO,
+                                                          Authentication authentication) {
+
+        try {
+            Client updatedClient = clientService.updateClient(clientDTO, authentication);
+            ClientResponseDTO clientResponseDTO = modelMapper.map(updatedClient, ClientResponseDTO.class);
+
+            return new ResponseEntity<>(clientResponseDTO, HttpStatus.OK);
+        } catch (BadRequestException exception) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

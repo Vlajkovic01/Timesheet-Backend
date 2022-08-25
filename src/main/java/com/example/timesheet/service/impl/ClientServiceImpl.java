@@ -1,5 +1,6 @@
 package com.example.timesheet.service.impl;
 
+import com.example.timesheet.exception.BadRequestException;
 import com.example.timesheet.model.dto.client.ClientDTO;
 import com.example.timesheet.model.entity.Client;
 import com.example.timesheet.model.mapper.CustomModelMapper;
@@ -61,6 +62,24 @@ public class ClientServiceImpl implements ClientService {
             return clientRepository.findAll(pageable).getContent();
         }
         return clientRepository.filterAll(searchQuery, pageable).getContent();
+    }
+
+    @Override
+    public Client updateClient(ClientDTO clientDTO, Authentication authentication) {
+        Client clientForUpdate = findClientByName(clientDTO.getName());
+
+        if (clientForUpdate == null) {
+            throw new BadRequestException("Please provide a valid client.");
+        }
+
+        clientForUpdate.setAddress(clientDTO.getAddress());
+        clientForUpdate.setCity(clientDTO.getCity());
+        clientForUpdate.setZip(clientDTO.getZip());
+        clientForUpdate.setCountry(clientDTO.getCountry());
+
+        save(clientForUpdate);
+
+        return clientForUpdate;
     }
 
     @Override
