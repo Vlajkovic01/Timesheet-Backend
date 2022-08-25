@@ -32,4 +32,5 @@ insert into work_log(date, description, hours, overtime, client_id, project_id, 
     
 insert into work_log(date, description, hours, overtime, client_id, project_id, employee_id, category_id)
 	values ('2022-08-10', 'Test description for workLog 2', 7.0, 0, 2, 2, 2, 4);
-    
+  
+  
