@@ -14,7 +14,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     Category findCategoryByName(String name);
 
-    @Query(value = "SELECT category FROM Category category WHERE category.name LIKE CONCAT(:searchQuery, '%')")
+    @Query(value = "SELECT category FROM Category category WHERE category.name LIKE CONCAT('%', :searchQuery, '%')")
     Page<Category> filterAll(String searchQuery, Pageable pageable);
 
     Page<Category> findAll(Pageable pageable);

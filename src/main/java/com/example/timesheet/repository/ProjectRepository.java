@@ -15,7 +15,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
     Project findProjectByNameAndClient(String name, Client client);
 
-    @Query(value = "SELECT project FROM Project project WHERE project.name LIKE CONCAT(:searchQuery, '%')")
+    @Query(value = "SELECT project FROM Project project WHERE project.name LIKE CONCAT('%', :searchQuery, '%')")
     Page<Project> filterAll(String searchQuery, Pageable pageable);
 
     Page<Project> findAll(Pageable pageable);

@@ -13,7 +13,7 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
     boolean existsClientByName(String name);
 
     Client findClientByName(String name);
-    @Query(value = "SELECT client FROM Client client WHERE client.name LIKE CONCAT(:searchQuery, '%')")
+    @Query(value = "SELECT client FROM Client client WHERE client.name LIKE CONCAT('%', :searchQuery, '%')")
     Page<Client> filterAll(String searchQuery, Pageable pageable);
 
     Page<Client> findAll(Pageable pageable);
