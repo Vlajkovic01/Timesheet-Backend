@@ -30,6 +30,6 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE Project project SET project.deleted = true WHERE project.id = :id")
+    @Query(value = "UPDATE Project project SET project.deleted = true, project.status = 'ARCHIVE' WHERE project.id = :id")
     void deleteProjectById(@Param("id") Integer id);
 }
