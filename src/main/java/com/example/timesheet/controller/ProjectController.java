@@ -72,12 +72,12 @@ public class ProjectController {
 
     @DeleteMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<ClientResponseDTO> deleteProject(@RequestBody Integer id) {
+    public ResponseEntity<String> deleteProject(@RequestBody Integer id) {
         try {
             projectService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (BadRequestException exception) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -70,12 +70,12 @@ public class ClientController {
 
     @DeleteMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<ClientResponseDTO> deleteClient(@RequestBody Integer id) {
+    public ResponseEntity<String> deleteClient(@RequestBody Integer id) {
         try {
             clientService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (BadRequestException exception) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }
