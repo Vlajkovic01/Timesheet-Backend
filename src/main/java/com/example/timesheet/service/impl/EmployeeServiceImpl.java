@@ -6,6 +6,8 @@ import com.example.timesheet.model.entity.Employee;
 import com.example.timesheet.model.enumeration.Role;
 import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.repository.EmployeeRepository;
+import com.example.timesheet.security.TokenUtils;
+import com.example.timesheet.service.EmailService;
 import com.example.timesheet.service.EmployeeService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,12 +17,15 @@ import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+    private final EmailService emailService;
     private final CustomModelMapper modelMapper;
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, CustomModelMapper modelMapper) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, CustomModelMapper modelMapper,
+                               EmailService emailService) {
         this.employeeRepository = employeeRepository;
         this.modelMapper = modelMapper;
+        this.emailService = emailService;
     }
 
     @Override
@@ -47,6 +52,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee newEmployee = modelMapper.map(employeeDTO, Employee.class);
         save(newEmployee);
+
+        emailService.sendVerificationEmail(employeeDTO);
 
         return newEmployee;
     }

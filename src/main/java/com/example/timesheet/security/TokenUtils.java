@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +32,7 @@ public class TokenUtils {
         return claims;
     }
 
-    public String getUsernameFromToken(String token) {
+    public String getEmailFromToken(String token) {
         String username;
         try {
             Claims claims = this.getClaimsFromToken(token);
@@ -53,21 +54,21 @@ public class TokenUtils {
         return expirationDate;
     }
 
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         final Date expirationDate = this.getExpirationDateFromToken(token);
         return expirationDate.before(new Date(System.currentTimeMillis()));
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
-        final String username = getUsernameFromToken(token);
+        final String username = getEmailFromToken(token);
         return username.equals(userDetails.getUsername())
                 && !isTokenExpired(token);
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(String email, String role) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("sub", userDetails.getUsername());
-        claims.put("role", userDetails.getAuthorities().toArray()[0]);
+        claims.put("sub", email);
+        claims.put("role", new SimpleGrantedAuthority(role));
         claims.put("created", new Date(System.currentTimeMillis()));
         return Jwts.builder().setClaims(claims)
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
