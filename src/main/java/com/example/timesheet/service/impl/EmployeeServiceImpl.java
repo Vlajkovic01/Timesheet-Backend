@@ -80,4 +80,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.save(employee);
     }
 
+    @Override
+    public void delete(String email) {
+        Employee employee = findByEmail(email);
+
+        if (employee == null) {
+            throw new BadRequestException("Please provide a valid data.");
+        }
+
+        employeeRepository.deleteEmployeeByEmail(email);
+    }
+
 }

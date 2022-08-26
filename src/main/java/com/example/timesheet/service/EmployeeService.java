@@ -17,4 +17,6 @@ public interface EmployeeService {
     Employee updateEmployee(EmployeeAddRequestDTO employeeAddRequestDTO);
 
     Employee save(Employee employee);
+
+    void delete(String email);
 }
