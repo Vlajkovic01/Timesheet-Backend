@@ -53,7 +53,7 @@ public class ClientController {
         return new ResponseEntity<>(clientsDTO, HttpStatus.OK);
     }
 
-    @PutMapping()
+    @PutMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ClientResponseDTO> updateClient(@Validated @RequestBody ClientDTO clientDTO,
                                                           Authentication authentication) {
@@ -65,6 +65,17 @@ public class ClientController {
             return new ResponseEntity<>(clientResponseDTO, HttpStatus.OK);
         } catch (BadRequestException exception) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<String> deleteClient(@RequestBody Integer id) {
+        try {
+            clientService.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (BadRequestException exception) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

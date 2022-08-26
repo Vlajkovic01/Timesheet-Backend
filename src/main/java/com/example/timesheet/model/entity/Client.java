@@ -28,4 +28,7 @@ public class Client {
 
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private Set<Project> projects = new HashSet<>();
+
+    @Column(columnDefinition = "boolean default false")
+    private Boolean deleted;
 }
