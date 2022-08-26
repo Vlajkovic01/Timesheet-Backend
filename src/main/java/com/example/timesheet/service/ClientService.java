@@ -13,11 +13,15 @@ public interface ClientService {
 
     Client findClientByName(String name);
 
+    Client findClientById(Integer id);
+
     boolean existsClient(Client client);
 
     List<Client> findClients(String searchQuery, Pageable pageable);
 
     Client updateClient(ClientDTO clientDTO, Authentication authentication);
+
+    void delete(Integer id);
 
     void save(Client client);
 }

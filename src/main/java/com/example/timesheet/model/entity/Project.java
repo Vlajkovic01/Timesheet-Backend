@@ -31,4 +31,7 @@ public class Project {
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
+
+    @Column(columnDefinition = "boolean default false")
+    private Boolean deleted;
 }

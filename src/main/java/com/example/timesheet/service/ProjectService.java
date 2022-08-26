@@ -15,6 +15,8 @@ public interface ProjectService {
 
     Project findProjectByNameAndClient(String name, Client client);
 
+    Project findProjectById(Integer id);
+
     List<Project> findProjects(String searchQuery, Pageable pageable);
 
     Project updateProject(ProjectAddRequestDTO projectAddRequestDTO);
@@ -22,4 +24,6 @@ public interface ProjectService {
     Project findProjectByName(String name);
 
     void save(Project project);
+
+    void delete(Integer id);
 }

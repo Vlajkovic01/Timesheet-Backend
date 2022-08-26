@@ -74,6 +74,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Project findProjectById(Integer id) {
+        return projectRepository.findProjectById(id);
+    }
+
+    @Override
     public List<Project> findProjects(String searchQuery, Pageable pageable) {
         if (searchQuery == null) {
             return projectRepository.findAll(pageable).getContent();
@@ -110,5 +115,16 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void save(Project project) {
         projectRepository.save(project);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        Project projectForDelete = findProjectById(id);
+
+        if (projectForDelete == null) {
+            throw new BadRequestException("Please provide a valid Project data.");
+        }
+
+        projectRepository.deleteProjectById(projectForDelete.getId());
     }
 }

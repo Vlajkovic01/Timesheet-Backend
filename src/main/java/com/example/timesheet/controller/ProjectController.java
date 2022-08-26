@@ -1,6 +1,7 @@
 package com.example.timesheet.controller;
 
 import com.example.timesheet.exception.BadRequestException;
+import com.example.timesheet.model.dto.client.response.ClientResponseDTO;
 import com.example.timesheet.model.dto.project.ProjectDTO;
 import com.example.timesheet.model.dto.project.request.ProjectAddRequestDTO;
 import com.example.timesheet.model.dto.project.response.ProjectResponseDTO;
@@ -67,5 +68,16 @@ public class ProjectController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    @DeleteMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<ClientResponseDTO> deleteProject(@RequestBody Integer id) {
+        try {
+            projectService.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (BadRequestException exception) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
