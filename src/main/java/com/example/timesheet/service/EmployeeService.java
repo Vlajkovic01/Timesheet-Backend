@@ -2,7 +2,10 @@ package com.example.timesheet.service;
 
 import com.example.timesheet.model.dto.employee.request.EmployeeAddRequestDTO;
 import com.example.timesheet.model.entity.Employee;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+
+import java.util.List;
 
 public interface EmployeeService {
 
@@ -19,4 +22,6 @@ public interface EmployeeService {
     Employee save(Employee employee);
 
     void delete(String email);
+
+    List<Employee> findAllUndeleted(Pageable pageable);
 }

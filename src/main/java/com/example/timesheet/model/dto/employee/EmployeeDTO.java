@@ -9,7 +9,6 @@ public class EmployeeDTO {
     private Integer id;
     private String name;
     private String username;
-    private String password;
     private String email;
     private EmployeeStatus status;
     private Role role;
