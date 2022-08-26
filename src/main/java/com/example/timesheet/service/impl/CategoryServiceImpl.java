@@ -92,4 +92,15 @@ public class CategoryServiceImpl implements CategoryService {
     public void save(Category category) {
         categoryRepository.save(category);
     }
+
+    @Override
+    public void delete(Integer id) {
+        Category categoryForDelete = findCategoryById(id);
+
+        if (categoryForDelete == null) {
+            throw new BadRequestException("Please provide a valid Category data.");
+        }
+
+        categoryRepository.deleteCategoryById(categoryForDelete.getId());
+    }
 }
