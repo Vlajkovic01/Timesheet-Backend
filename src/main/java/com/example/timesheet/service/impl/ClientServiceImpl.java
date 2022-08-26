@@ -53,11 +53,18 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client findClientByName(String name) {
+        if (name == null) {
+            throw new BadRequestException("Please provide a valid name data.");
+        }
         return clientRepository.findClientByName(name);
     }
 
     @Override
     public Client findClientById(Integer id) {
+
+        if (id == null) {
+            throw new BadRequestException("Please provide a valid data.");
+        }
         return clientRepository.findClientById(id);
     }
 
