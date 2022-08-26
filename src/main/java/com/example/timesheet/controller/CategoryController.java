@@ -41,8 +41,8 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> getClients(@RequestParam(required = false, name = "name") String searchQuery,
-                                                        Pageable pageable) {
+    public ResponseEntity<List<CategoryDTO>> getCategories(@RequestParam(required = false, name = "name") String searchQuery,
+                                                           Pageable pageable) {
 
         List<Category> categories = categoryService.findCategories(searchQuery, pageable);
 
@@ -62,5 +62,17 @@ public class CategoryController {
         }
 
 
+    }
+
+    @DeleteMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<String> deleteCategory(@RequestBody Integer id) {
+
+        try {
+            categoryService.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (BadRequestException exception) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

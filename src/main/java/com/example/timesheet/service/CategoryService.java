@@ -18,6 +18,10 @@ public interface CategoryService {
     List<Category> findCategories(String searchQuery, Pageable pageable);
 
     Category updateCategory(CategoryDTO categoryDTO);
+
     Category findCategoryById(Integer id);
+
     void save(Category category);
+
+    void delete(Integer id);
 }
