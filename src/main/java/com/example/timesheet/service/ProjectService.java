@@ -17,7 +17,7 @@ public interface ProjectService {
 
     Project findProjectById(Integer id);
 
-    List<Project> findProjects(String searchQuery, Pageable pageable);
+    List<Project> findUndeletedProjects(String searchQuery, Pageable pageable);
 
     Project updateProject(ProjectAddRequestDTO projectAddRequestDTO);
 

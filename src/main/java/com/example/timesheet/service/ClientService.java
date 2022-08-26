@@ -17,7 +17,7 @@ public interface ClientService {
 
     boolean existsClient(Client client);
 
-    List<Client> findClients(String searchQuery, Pageable pageable);
+    List<Client> findUndeletedClients(String searchQuery, Pageable pageable);
 
     Client updateClient(ClientDTO clientDTO, Authentication authentication);
 

@@ -47,7 +47,7 @@ public class ClientController {
     public ResponseEntity<List<ClientDTO>> getClients(@RequestParam(required = false, name = "name") String searchQuery,
                                                       Pageable pageable) {
 
-        List<Client> clients = clientService.findClients(searchQuery, pageable);
+        List<Client> clients = clientService.findUndeletedClients(searchQuery, pageable);
 
         List<ClientDTO> clientsDTO = modelMapper.mapAll(clients, ClientDTO.class);
         return new ResponseEntity<>(clientsDTO, HttpStatus.OK);

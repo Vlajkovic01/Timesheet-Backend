@@ -21,10 +21,10 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
     Project findProjectById(Integer id);
 
-    @Query(value = "SELECT project FROM Project project WHERE project.name LIKE CONCAT('%', :searchQuery, '%')")
-    Page<Project> filterAll(String searchQuery, Pageable pageable);
+    @Query(value = "SELECT project FROM Project project WHERE project.name LIKE CONCAT('%', :searchQuery, '%') AND project.deleted = false")
+    Page<Project> filterAllUndeleted(String searchQuery, Pageable pageable);
 
-    Page<Project> findAll(Pageable pageable);
+    Page<Project> findAllByDeletedFalse(Pageable pageable);
 
     Project findProjectByName(String name);
 

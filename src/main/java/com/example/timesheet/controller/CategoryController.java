@@ -44,7 +44,7 @@ public class CategoryController {
     public ResponseEntity<List<CategoryDTO>> getCategories(@RequestParam(required = false, name = "name") String searchQuery,
                                                            Pageable pageable) {
 
-        List<Category> categories = categoryService.findCategories(searchQuery, pageable);
+        List<Category> categories = categoryService.findUndeletedCategories(searchQuery, pageable);
 
         List<CategoryDTO> categoriesDTO = modelMapper.mapAll(categories, CategoryDTO.class);
         return new ResponseEntity<>(categoriesDTO, HttpStatus.OK);
