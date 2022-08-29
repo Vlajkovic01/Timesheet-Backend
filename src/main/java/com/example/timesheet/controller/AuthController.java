@@ -4,6 +4,7 @@ import com.example.timesheet.exception.BadRequestException;
 import com.example.timesheet.exception.PasswordMatchException;
 import com.example.timesheet.model.dto.auth.request.ChangePasswordRequestDTO;
 import com.example.timesheet.model.dto.auth.request.LoginRequestDTO;
+import com.example.timesheet.model.dto.auth.request.SignupVerificationDTO;
 import com.example.timesheet.model.dto.auth.response.UserTokenState;
 import com.example.timesheet.model.dto.employee.EmployeeDTO;
 import com.example.timesheet.model.dto.employee.request.EmployeeAddRequestDTO;
@@ -51,7 +52,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         UserDetails user = (UserDetails) authentication.getPrincipal();
-        String jwt = tokenUtils.generateToken(user);
+        String jwt = tokenUtils.generateToken(user.getUsername(), user.getAuthorities().toArray()[0].toString());
         long expiresIn = tokenUtils.getExpiredIn();
 
         return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
@@ -70,7 +71,7 @@ public class AuthController {
         return new ResponseEntity<>(newEmployeeDTO, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/password")
+    @PutMapping(value = "/change-password")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_WORKER')")
     public ResponseEntity<String> changePassword(@RequestBody @Validated ChangePasswordRequestDTO changePasswordDTO, Authentication authentication) {
 
@@ -79,6 +80,17 @@ public class AuthController {
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (BadRequestException | PasswordMatchException exception) {
             return new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(value = "/verify-account")
+    public ResponseEntity<String> signupVerification(@RequestBody @Validated SignupVerificationDTO signupVerificationDTO) {
+
+        try {
+            authService.signupVerification(signupVerificationDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (BadRequestException | PasswordMatchException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

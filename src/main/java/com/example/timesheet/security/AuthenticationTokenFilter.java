@@ -33,10 +33,10 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
             token = token.substring(7);
         }
 
-        String username = tokenUtils.getUsernameFromToken(token);
+        String email = tokenUtils.getEmailFromToken(token);
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
             if (tokenUtils.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
