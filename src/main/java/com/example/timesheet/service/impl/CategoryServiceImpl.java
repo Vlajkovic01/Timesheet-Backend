@@ -59,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> findCategories(String searchQuery, Pageable pageable) {
         if (searchQuery == null) {
-            return categoryRepository.findAll(pageable).getContent();
+            return categoryRepository.findAllByDeletedFalse(pageable).getContent();
         }
         return categoryRepository.filterAll(searchQuery, pageable).getContent();
     }

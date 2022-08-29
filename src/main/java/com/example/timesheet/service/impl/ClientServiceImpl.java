@@ -76,7 +76,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public List<Client> findClients(String searchQuery, Pageable pageable) {
         if (searchQuery == null) {
-            return clientRepository.findAll(pageable).getContent();
+            return clientRepository.findAllByDeletedFalse(pageable).getContent();
         }
         return clientRepository.filterAll(searchQuery, pageable).getContent();
     }
