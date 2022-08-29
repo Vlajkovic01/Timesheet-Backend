@@ -9,10 +9,12 @@ import com.example.timesheet.repository.EmployeeRepository;
 import com.example.timesheet.security.TokenUtils;
 import com.example.timesheet.service.EmailService;
 import com.example.timesheet.service.EmployeeService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -96,6 +98,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         employeeRepository.deleteEmployeeByEmail(email);
+    }
+
+    @Override
+    public List<Employee> findAllUndeleted(Pageable pageable) {
+        return employeeRepository.findAllByDeletedFalse(pageable).getContent();
     }
 
 }

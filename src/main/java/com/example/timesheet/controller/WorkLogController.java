@@ -8,7 +8,6 @@ import com.example.timesheet.model.dto.worklog.response.WorkLogWithoutClientDTO;
 import com.example.timesheet.model.entity.WorkLog;
 import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.service.WorkLogService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +48,7 @@ public class WorkLogController {
     @GetMapping("generate-report")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_WORKER')")
     public ResponseEntity<List<WorkLogWithoutClientDTO>> generateReport(@RequestBody(required = false) @Valid ReportRequestDTO reportRequestDTO,
-                                                                    Pageable pageable) {
+                                                                        Pageable pageable) {
         try {
             List<WorkLog> workLogs = workLogService.generateReport(reportRequestDTO, pageable);
             List<WorkLogWithoutClientDTO> workLogsDTO = modelMapper.mapAll(workLogs, WorkLogWithoutClientDTO.class);
