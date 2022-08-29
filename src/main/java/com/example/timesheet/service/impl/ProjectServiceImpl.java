@@ -79,11 +79,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> findUndeletedProjects(String searchQuery, Pageable pageable) {
+    public List<Project> findProjects(String searchQuery, Pageable pageable) {
         if (searchQuery == null) {
             return projectRepository.findAllByDeletedFalse(pageable).getContent();
         }
-        return projectRepository.filterAllUndeleted(searchQuery, pageable).getContent();
+        return projectRepository.filterAll(searchQuery, pageable).getContent();
     }
 
     @Override

@@ -15,7 +15,7 @@ public interface CategoryService {
 
     Category findCategoryByName(String name);
 
-    List<Category> findUndeletedCategories(String searchQuery, Pageable pageable);
+    List<Category> findCategories(String searchQuery, Pageable pageable);
 
     Category updateCategory(CategoryDTO categoryDTO);
 

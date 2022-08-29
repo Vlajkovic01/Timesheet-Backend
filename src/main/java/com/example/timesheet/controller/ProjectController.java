@@ -49,7 +49,7 @@ public class ProjectController {
     public ResponseEntity<List<ProjectResponseDTO>> getProjects(@RequestParam(required = false, name = "name") String searchQuery,
                                                                 Pageable pageable) {
 
-        List<Project> projects = projectService.findUndeletedProjects(searchQuery, pageable);
+        List<Project> projects = projectService.findProjects(searchQuery, pageable);
 
         List<ProjectResponseDTO> projectsDTO = modelMapper.mapAll(projects, ProjectResponseDTO.class);
         return new ResponseEntity<>(projectsDTO, HttpStatus.OK);

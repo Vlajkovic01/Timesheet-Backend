@@ -19,8 +19,9 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     Category findCategoryByName(String name);
 
     @Query(value = "SELECT category FROM Category category WHERE category.name LIKE CONCAT('%', :searchQuery, '%') AND category.deleted = false")
-    Page<Category> filterAllUndeleted(String searchQuery, Pageable pageable);
+    Page<Category> filterAll(String searchQuery, Pageable pageable);
 
+    Page<Category> findAll(Pageable pageable);
     Page<Category> findAllByDeletedFalse(Pageable pageable);
 
     Category findCategoryById(Integer id);
