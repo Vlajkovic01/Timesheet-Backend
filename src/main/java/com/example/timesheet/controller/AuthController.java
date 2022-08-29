@@ -84,7 +84,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "/verify-account")
-    public ResponseEntity<String> newPassword(@RequestBody @Validated SignupVerificationDTO signupVerificationDTO) {
+    public ResponseEntity<String> signupVerification(@RequestBody @Validated SignupVerificationDTO signupVerificationDTO) {
 
         try {
             authService.signupVerification(signupVerificationDTO);
