@@ -17,5 +17,5 @@ public class Category {
     private String name;
 
     @Column(columnDefinition = "boolean default false")
-    private Boolean deleted;
+    private Boolean deleted = false;
 }

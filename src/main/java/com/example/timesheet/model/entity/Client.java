@@ -30,5 +30,5 @@ public class Client {
     private Set<Project> projects = new HashSet<>();
 
     @Column(columnDefinition = "boolean default false")
-    private Boolean deleted;
+    private Boolean deleted = false;
 }

@@ -31,6 +31,6 @@ public class Employee {
     private Role role;
 
     @Column(columnDefinition = "boolean default false")
-    private Boolean deleted;
+    private Boolean deleted = false;
 
 }
