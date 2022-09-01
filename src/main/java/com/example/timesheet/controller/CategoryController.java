@@ -60,13 +60,11 @@ public class CategoryController {
         } catch (BadRequestException exception) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<String> deleteCategory(@RequestBody Integer id) {
+    public ResponseEntity<String> deleteCategory(@PathVariable Integer id) {
 
         try {
             categoryService.delete(id);
