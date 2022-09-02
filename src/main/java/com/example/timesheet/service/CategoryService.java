@@ -2,6 +2,7 @@ package com.example.timesheet.service;
 
 import com.example.timesheet.model.dto.category.CategoryDTO;
 import com.example.timesheet.model.entity.Category;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 
@@ -15,7 +16,7 @@ public interface CategoryService {
 
     Category findCategoryByName(String name);
 
-    List<Category> findCategories(String searchQuery, Pageable pageable);
+    Page<Category> findCategories(String searchQuery, Pageable pageable);
 
     Category updateCategory(CategoryDTO categoryDTO);
 
