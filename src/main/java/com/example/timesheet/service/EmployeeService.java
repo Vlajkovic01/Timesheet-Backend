@@ -2,6 +2,7 @@ package com.example.timesheet.service;
 
 import com.example.timesheet.model.dto.employee.request.EmployeeAddRequestDTO;
 import com.example.timesheet.model.entity.Employee;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 
@@ -23,5 +24,5 @@ public interface EmployeeService {
 
     void delete(String email);
 
-    List<Employee> findAllUndeleted(Pageable pageable);
+    Page<Employee> findAll(Pageable pageable);
 }

@@ -9,6 +9,7 @@ import com.example.timesheet.repository.EmployeeRepository;
 import com.example.timesheet.security.TokenUtils;
 import com.example.timesheet.service.EmailService;
 import com.example.timesheet.service.EmployeeService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -101,8 +102,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> findAllUndeleted(Pageable pageable) {
-        return employeeRepository.findAllByDeletedFalse(pageable).getContent();
+    public Page<Employee> findAll(Pageable pageable) {
+        return employeeRepository.findAllByDeletedFalse(pageable);
     }
 
 }
