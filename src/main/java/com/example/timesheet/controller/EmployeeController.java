@@ -6,6 +6,7 @@ import com.example.timesheet.model.dto.employee.request.EmployeeAddRequestDTO;
 import com.example.timesheet.model.entity.Employee;
 import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.service.EmployeeService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,11 +57,11 @@ public class EmployeeController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<EmployeeDTO>> getEmployees(Pageable pageable) {
+    public ResponseEntity<Page<EmployeeDTO>> getEmployees(Pageable pageable) {
 
-        List<Employee> employees = employeeService.findAllUndeleted(pageable);
+        Page<Employee> employees = employeeService.findAll(pageable);
 
-        List<EmployeeDTO> employeesDTO = modelMapper.mapAll(employees, EmployeeDTO.class);
+        Page<EmployeeDTO> employeesDTO = modelMapper.mapAll(employees, EmployeeDTO.class);
         return new ResponseEntity<>(employeesDTO, HttpStatus.OK);
     }
 }

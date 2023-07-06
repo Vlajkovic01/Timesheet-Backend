@@ -7,6 +7,7 @@ import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.repository.CategoryRepository;
 import com.example.timesheet.service.CategoryService;
 import com.example.timesheet.service.EmployeeService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -57,11 +58,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> findCategories(String searchQuery, Pageable pageable) {
+    public Page<Category> findCategories(String searchQuery, Pageable pageable) {
         if (searchQuery == null) {
-            return categoryRepository.findAllByDeletedFalse(pageable).getContent();
+            return categoryRepository.findAllByDeletedFalse(pageable);
         }
-        return categoryRepository.filterAll(searchQuery, pageable).getContent();
+        return categoryRepository.filterAll(searchQuery, pageable);
     }
 
     @Override

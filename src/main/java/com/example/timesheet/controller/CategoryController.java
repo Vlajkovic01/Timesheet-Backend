@@ -5,6 +5,7 @@ import com.example.timesheet.model.dto.category.CategoryDTO;
 import com.example.timesheet.model.entity.Category;
 import com.example.timesheet.model.mapper.CustomModelMapper;
 import com.example.timesheet.service.CategoryService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,12 +42,12 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> getCategories(@RequestParam(required = false, name = "name") String searchQuery,
+    public ResponseEntity<Page<CategoryDTO>> getCategories(@RequestParam(required = false, name = "name") String searchQuery,
                                                            Pageable pageable) {
 
-        List<Category> categories = categoryService.findCategories(searchQuery, pageable);
+        Page<Category> categories = categoryService.findCategories(searchQuery, pageable);
 
-        List<CategoryDTO> categoriesDTO = modelMapper.mapAll(categories, CategoryDTO.class);
+        Page<CategoryDTO> categoriesDTO = modelMapper.mapAll(categories, CategoryDTO.class);
         return new ResponseEntity<>(categoriesDTO, HttpStatus.OK);
     }
 

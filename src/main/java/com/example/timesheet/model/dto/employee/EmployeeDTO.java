@@ -10,6 +10,7 @@ public class EmployeeDTO {
     private String name;
     private String username;
     private String email;
+    private Double hoursPerWeek;
     private EmployeeStatus status;
     private Role role;
 }

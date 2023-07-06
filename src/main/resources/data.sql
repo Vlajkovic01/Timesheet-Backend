@@ -14,7 +14,11 @@ insert into employee(name, username, password, email, status, role, hours_per_we
 insert into category (name) values ('Ui');    
 insert into category (name) values ('UX');    
 insert into category (name) values ('Backend');    
-insert into category (name) values ('Security');    
+insert into category (name) values ('Security');
+insert into category (name) values ('Web development');    
+insert into category (name) values ('Frontend');    
+insert into category (name) values ('Testing');    
+insert into category (name) values ('Learning');       
     
 insert into client (name, address, city, zip, country) 
 	values ('Apple', '1 infinitive loop', 'Cupertino', 95014, 'California');
